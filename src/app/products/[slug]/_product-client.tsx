@@ -580,6 +580,30 @@ export default function ProductDetailClient({
                   </span>
                 </div>
 
+                <div className="grid grid-cols-3 border-y border-black/10 py-5 sm:py-6">
+                  {[
+                    { label: "Premium Quality", icon: "/premium-quality.webp" },
+                    { label: "Made Personal", icon: "/made-personal.webp" },
+                    { label: "Elegance, Served", icon: "/elegance-served.webp" },
+                  ].map((promise, index) => (
+                    <div
+                      key={promise.label}
+                      className={`flex min-w-0 flex-col items-center px-2 text-center ${
+                        index > 0 ? "border-l border-black/10" : ""
+                      }`}
+                    >
+                      <img
+                        src={promise.icon}
+                        alt=""
+                        className="h-9 w-9 object-contain sm:h-11 sm:w-11"
+                      />
+                      <p className="mt-2 font-(family-name:--font-body) text-[0.58rem] uppercase leading-4 tracking-[0.14em] text-black/65 sm:text-[0.65rem] sm:tracking-[0.18em]">
+                        {promise.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
                 {schema?.afterCart?.length ? (
                   <div className="grid gap-5 border-t border-black/10 pt-6">
                     {schema.afterCart.map((note) => (
@@ -590,56 +614,82 @@ export default function ProductDetailClient({
               </div>
             </div>
 
-            <div className="mt-8 grid gap-4 border-t border-black/10 pt-6 text-sm text-black/68 sm:grid-cols-3">
-              <div>
-                <p className="font-(family-name:--font-body) text-[0.72rem] uppercase tracking-[0.24em] text-black/45">
-                  Crafted for
-                </p>
-                <p className="mt-2 leading-7">
-                  Gifting, celebrations, and bespoke keepsakes.
-                </p>
-              </div>
-              <div>
-                <p className="font-(family-name:--font-body) text-[0.72rem] uppercase tracking-[0.24em] text-black/45">
-                  Turnaround
-                </p>
-                <p className="mt-2 leading-7">
-                  Timelines vary based on customization and quantity.
-                </p>
-              </div>
-              <div>
-                <p className="font-(family-name:--font-body) text-[0.72rem] uppercase tracking-[0.24em] text-black/45">
-                  Note
-                </p>
-                <p className="mt-2 leading-7">
-                  Carefully finished with attention to composition and detail.
-                </p>
-              </div>
-            </div>
-
             <div className="mt-8 border-t border-black/10">
               <ProductInfoDropdown title="Shipping">
-                <p><strong>Standard Shipping:</strong> 5-7 business days.</p>
-                <p className="mt-3"><strong>Express Shipping:</strong> 2-3 business days.</p>
+                <p>
+                  As each piece is thoughtfully handcrafted and personalised, please allow the following timelines:
+                </p>
+                <p className="mt-4 font-medium text-black">
+                  Handpainted Tote Bags, Napkins &amp; Signages
+                </p>
+                <p>At least 2–3 weeks for creation.</p>
+                <p className="mt-4 font-medium text-black">Engraved &amp; Foil Stamped Products</p>
+                <p>At least 1–2 weeks for creation.</p>
+                <p className="mt-4">Please allow an additional 3 days for shipping and delivery.</p>
+                <p className="mt-4">
+                  We recommend placing your orders well in advance, especially for weddings and celebrations, to allow enough time for your pieces to be carefully created and delivered.
+                </p>
+                <p className="mt-4">
+                  <strong>Need it sooner?</strong> For urgent or emergency orders, drop us an email at{" "}
+                  <a className="underline underline-offset-2" href="mailto:littleccoartmakes@gmail.com">
+                    littleccoartmakes@gmail.com
+                  </a>{" "}
+                  and we&apos;ll do our best to accommodate your timeline.
+                </p>
               </ProductInfoDropdown>
               <ProductInfoDropdown title="Returns">
-                <p>Returns accepted within 15 days of delivery in original condition and packaging.</p>
-              </ProductInfoDropdown>
-              <ProductInfoDropdown title="Materials & Care / Product Details">
-                {description && (
-                  <div
-                    className="[&>p]:mb-3 [&>ul]:ml-4 [&>ul]:list-disc"
-                    dangerouslySetInnerHTML={{ __html: description }}
-                  />
-                )}
-                <p>Crafted with premium materials for longevity and everyday display.</p>
-                <p className="mt-3">Wipe gently with a soft, dry cloth and avoid extended exposure to heat or moisture.</p>
-              </ProductInfoDropdown>
-              <ProductInfoDropdown title="Products Included">
                 <p>
-                  {rule?.kind === "set"
-                    ? `Each set includes ${rule.setSize} pieces.`
-                    : "Includes the product and options selected above."}
+                  As every piece is individually hand-calligraphed, engraved, handpainted, or foil stamped specifically for you, personalised orders are non-returnable or exchangeable.
+                </p>
+                <p className="mt-4">
+                  However, if your product arrives damaged, torn, cracked, or broken, please get in touch with us and we&apos;ll be happy to assist.
+                </p>
+              </ProductInfoDropdown>
+              <ProductInfoDropdown title="Product Details">
+                <p>
+                  The product shown is included with the personalisation service unless specifically mentioned otherwise.
+                </p>
+                <p className="mt-4">
+                  Every piece is individually created and personalised by hand, making each one unique. Slight variations in lettering, placement, finish, or artwork are a natural part of the handmade process and add to the character of your Little C Co. piece.
+                </p>
+              </ProductInfoDropdown>
+              <ProductInfoDropdown title="Materials & Care">
+                <p>We carefully select quality materials to complement our handcrafted personalisation.</p>
+
+                <p className="mt-5 font-medium text-black">Linen</p>
+                <p>Used for our tote bags, dining napkins, and signages.</p>
+                <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-black/45">
+                  <li>For small dirt marks, gently wipe with a damp cloth and mild soap.</li>
+                  <li>Hand wash only: If the entire bag or napkin requires cleaning, hand wash in cold water with a gentle detergent.</li>
+                  <li>Do not soak, wring, or twist the painted area, as excessive friction may cause the cured acrylic paint to crack or wear.</li>
+                  <li>Dry flat: Reshape while damp and allow to air dry flat.</li>
+                  <li>Avoid ironing directly over painted areas.</li>
+                </ul>
+
+                <p className="mt-5 font-medium text-black">Metal</p>
+                <p>
+                  Our compact mirrors and card holders are crafted using quality metal surfaces, selected to provide a smooth base for precise, lasting engraving.
+                </p>
+                <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-black/45">
+                  <li>Wipe gently with a soft, dry or slightly damp cloth.</li>
+                  <li>Avoid abrasive cleaners, rough cloths, and prolonged exposure to moisture.</li>
+                  <li>For engraved surfaces, handle gently to preserve the finish.</li>
+                </ul>
+
+                <p className="mt-5 font-medium text-black">Glass</p>
+                <p>
+                  Our wine glasses, tumblers, ring boxes, letter holders, and frames use quality glass selected for their clarity and elegant finish. Our ring boxes, letter holders, and frames feature gold-toned metal rims for an elevated look.
+                </p>
+                <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-black/45">
+                  <li>Handle glass pieces with care.</li>
+                  <li>Clean gently with a soft cloth and mild soap.</li>
+                  <li>Avoid abrasive materials and harsh cleaning products.</li>
+                  <li>For personalised or engraved surfaces, avoid excessive scrubbing directly over the artwork or engraving.</li>
+                </ul>
+
+                <p className="mt-5 font-medium text-black">Handcrafted Details</p>
+                <p>
+                  Each calligraphed, handpainted, engraved, and foil-stamped detail is created individually. With proper care, your piece can be enjoyed long after the celebration it was created for.
                 </p>
               </ProductInfoDropdown>
             </div>
@@ -651,11 +701,8 @@ export default function ProductDetailClient({
         <section className="px-4 pb-8 pt-10 sm:px-8 sm:pb-16 sm:pt-14 md:px-12 md:pb-20 lg:px-16">
           <div className="mx-auto max-w-7xl">
             <div className="mb-8">
-              <p className="font-(family-name:--font-body) text-xs uppercase tracking-[0.28em] text-black/45">
-                Related
-              </p>
-              <h2 className="mt-2 font-(family-name:--font-heading) text-[1.9rem] leading-tight text-black md:text-[2.3rem]">
-                Pairs Beautifully With
+              <h2 className="font-(family-name:--font-heading) text-[2.2rem] leading-tight text-black md:text-[2.65rem]">
+                We&apos;d pair it with
               </h2>
             </div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-8 lg:grid-cols-4">
