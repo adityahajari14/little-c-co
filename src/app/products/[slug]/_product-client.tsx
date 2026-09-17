@@ -169,7 +169,7 @@ export default function ProductDetailClient({
     state.items.reduce((total, item) => total + item.quantity, 0),
   );
 
-  const thumbnails = product.images.filter((img) => Boolean(img?.src)).slice(0, 4);
+  const thumbnails = product.images.filter((img) => Boolean(img?.src));
   const selectedImage = thumbnails[selectedImageIndex] ?? thumbnails[0];
   const salePrice = Number(product.price).toLocaleString("en-IN");
   const regularPrice = Number(product.regularPrice).toLocaleString("en-IN");
