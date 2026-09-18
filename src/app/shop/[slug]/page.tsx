@@ -7,6 +7,23 @@ import Reveal from "@/components/reveal";
 
 export const dynamic = "force-dynamic";
 
+function ComingSoonCard() {
+  return (
+    <div className="flex h-full flex-col overflow-hidden border border-dashed border-[#d8d1c7] bg-[#fffdf9]">
+      <div className="flex aspect-4/5 items-center justify-center bg-[#f7f2ea] p-2.5 sm:p-3">
+        <p className="font-(family-name:--font-body) text-xs uppercase tracking-[0.28em] text-black/40">
+          Coming Soon
+        </p>
+      </div>
+      <div className="flex flex-1 flex-col justify-between border-t border-black/8 px-3.5 pb-3.5 pt-4 sm:px-4 sm:pb-4">
+        <p className="font-(family-name:--font-body) text-[1.05rem] leading-6 text-black/55">
+          More pieces are on the way for this collection.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function ProductCard({
   product,
 }: {
@@ -83,29 +100,41 @@ export default async function CollectionDetailPage({
   return (
     <main className="min-h-screen">
       <Reveal as="section" className="border-b border-black/10 bg-[#f7f2ea]">
-        <div className="grid md:min-h-[22rem] md:grid-cols-[minmax(0,0.74fr)_minmax(26rem,1.26fr)] md:items-stretch lg:min-h-[24rem]">
-          <div className="min-h-[12rem] overflow-hidden bg-[#f4ede1] md:min-h-full">
-            {collection.image ? (
+        {collection.image ? (
+          <div className="grid md:min-h-[22rem] md:grid-cols-[minmax(0,0.74fr)_minmax(26rem,1.26fr)] md:items-stretch lg:min-h-[24rem]">
+            <div className="min-h-[12rem] overflow-hidden bg-[#f4ede1] md:min-h-full">
               <img
                 src={collection.image}
                 alt={collection.title}
                 className="block h-full w-full object-cover"
               />
-            ) : null}
-          </div>
+            </div>
 
-          <div className="flex flex-col justify-center px-6 py-8 sm:px-8 md:px-12 md:py-12 lg:px-14">
+            <div className="flex flex-col justify-center px-6 py-8 sm:px-8 md:px-12 md:py-12 lg:px-14">
+              <p className="font-(family-name:--font-body) text-xs uppercase tracking-[0.32em] text-black/45">
+                {collection.eyebrow}
+              </p>
+              <h1 className="mt-3 font-(family-name:--font-body) text-[2.25rem] leading-tight text-black md:text-[3.15rem] lg:text-[3.6rem]">
+                {collection.title}
+              </h1>
+              <p className="mt-5 max-w-2xl font-(family-name:--font-body) text-[1rem] leading-7 text-black/72 md:text-[1.05rem] lg:text-[1.1rem]">
+                {collection.description}
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center px-6 py-14 text-center sm:px-8 md:px-12 md:py-18">
             <p className="font-(family-name:--font-body) text-xs uppercase tracking-[0.32em] text-black/45">
               {collection.eyebrow}
             </p>
             <h1 className="mt-3 font-(family-name:--font-body) text-[2.25rem] leading-tight text-black md:text-[3.15rem] lg:text-[3.6rem]">
               {collection.title}
             </h1>
-            <p className="mt-5 max-w-2xl font-(family-name:--font-body) text-[1rem] leading-7 text-black/72 md:text-[1.05rem] lg:text-[1.1rem]">
+            <p className="mx-auto mt-5 max-w-2xl font-(family-name:--font-body) text-[1rem] leading-7 text-black/72 md:text-[1.05rem] lg:text-[1.1rem]">
               {collection.description}
             </p>
           </div>
-        </div>
+        )}
       </Reveal>
 
       <Reveal as="div" className="px-6 py-10 sm:px-8 md:px-16 md:py-16" delay={80}>
@@ -131,6 +160,11 @@ export default async function CollectionDetailPage({
                     <ProductCard product={product} />
                   </div>
                 ))}
+                {collection.showComingSoon ? (
+                  <div className="w-full max-w-[16.5rem] sm:max-w-[17.5rem] lg:max-w-[18.5rem]">
+                    <ComingSoonCard />
+                  </div>
+                ) : null}
               </div>
             </section>
           ) : (

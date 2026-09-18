@@ -10,7 +10,10 @@ import Link from "next/link";
 // slotted in right after "Little Stuff".
 const shopMenuLinks: { label: string; href: string }[] = navCollections.flatMap(
   (collection) => {
-    const link = { label: collection.label, href: `/shop/${collection.slug}` };
+    const link = {
+      label: collection.label,
+      href: collection.slug === "little-stuff" ? "/shop" : `/shop/${collection.slug}`,
+    };
     return collection.slug === "little-stuff"
       ? [link, { label: "Curate your hamper", href: "/curate-your-hamper" }]
       : [link];

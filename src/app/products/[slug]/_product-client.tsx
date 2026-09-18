@@ -16,6 +16,50 @@ function inr(value: number) {
   return value.toLocaleString("en-IN");
 }
 
+const MATERIAL_BY_SCHEMA_TYPE: Record<string, "linen" | "metal" | "glass"> = {
+  "tote-bag": "linen",
+  napkins: "linen",
+  signage: "linen",
+  "compact-mirror": "metal",
+  "card-holder": "metal",
+  cutlery: "metal",
+  "wine-glass": "glass",
+  "ring-box": "glass",
+  "letter-glass-box": "glass",
+  frame: "glass",
+};
+
+const PRODUCT_DETAILS_BY_SCHEMA_TYPE: Record<string, string> = {
+  frame:
+    "Available as Doily Paper or Glass Engraving, in rectangle sizes from 5 × 7 in to 8 × 10 in or square sizes from 6 × 6 in to 10 × 10 in, with optional dried florals and gold flake accents.",
+  "letter-glass-box":
+    "Your letter is presented inside a 9 × 2 × 2 in glass keepsake box, as handwritten calligraphy or a printed letter, with optional engraving on the glass itself.",
+  "compact-mirror":
+    "A 2.76 in round compact mirror in Gold or Silver, with your personalisation engraved on the interior or exterior.",
+  "cake-set":
+    "A cake knife & server set in Gold or Silver, with engraving available on the knife, the server, or both.",
+  signage:
+    "Handpainted as a Food & Drinks Menu or Seating Arrangement Chart, on White Canvas, Black Canvas, MDF Wooden Board, or Linen Fabric, in rectangle, square, or arched shapes.",
+  "ring-box":
+    "A 3 × 3 in glass ring box suited to rings, wedding bands, and proposal styling, with optional dried florals and custom engraving.",
+  "wine-glass":
+    "Engraved on the front only or front & back, with an option to add handpainted botanical accents.",
+  "curated-gift":
+    "Choose a Mug, Tumbler, Keychain, Book, or another item of your choice, presented in a gift box or basket, with optional photo, floral add-on, and greeting card.",
+  "greeting-card":
+    "A hand-lettered card in A2 or A6 size, on smooth or textured paper, with optional doodle illustration, gold foil detailing, and a kraft envelope.",
+  "tote-bag":
+    "A handpainted linen tote in Dark Blue, Black, or Ivory, with your choice of calligraphy text and an optional handpainted illustration.",
+  "card-holder":
+    "Available in Gold or Silver, with your personalisation engraved in your choice of fill.",
+  "place-cards":
+    "Available as Folded, Doily, or Ribbon style place cards, in a range of colours to match your table setting.",
+  napkins:
+    "Handpainted linen napkins in Ivory, Blue, or a special request colour, with an optional matching illustration.",
+  cutlery:
+    "An engraved cutlery set in Gold, Rose Gold, or Silver, with engraving available on the knife, the spoon, or both.",
+};
+
 function FieldLabel({ children }: { children: ReactNode }) {
   return (
     <label className="mb-2 block font-(family-name:--font-body) text-sm uppercase tracking-[0.18em] text-black/48">
@@ -149,6 +193,8 @@ export default function ProductDetailClient({
   type CartButtonState = "idle" | "adding" | "added";
 
   const schema = useMemo(() => getSchemaForProduct(product), [product]);
+  const material = schema ? MATERIAL_BY_SCHEMA_TYPE[schema.type] : undefined;
+  const productSpecificDetails = schema ? PRODUCT_DETAILS_BY_SCHEMA_TYPE[schema.type] : undefined;
   const rule = useMemo(() => getPricingRule(product.slug), [product.slug]);
   const isSet = rule?.kind === "set";
 
@@ -173,7 +219,9 @@ export default function ProductDetailClient({
   const selectedImage = thumbnails[selectedImageIndex] ?? thumbnails[0];
   const salePrice = Number(product.price).toLocaleString("en-IN");
   const regularPrice = Number(product.regularPrice).toLocaleString("en-IN");
-  const primaryCategory = product.categories?.[0] ?? "Product";
+  const primaryCategory =
+    product.categories?.find((category) => category.toLowerCase() !== "uncategorized") ??
+    "Gifts & Keepsakes";
 
   const description = product.description || product.shortDescription || "";
   // Local-delivery products carry the note in the title; surface it as its own
@@ -646,7 +694,8 @@ export default function ProductDetailClient({
                 </p>
               </ProductInfoDropdown>
               <ProductInfoDropdown title="Product Details">
-                <p>
+                {productSpecificDetails && <p>{productSpecificDetails}</p>}
+                <p className={productSpecificDetails ? "mt-4" : undefined}>
                   The product shown is included with the personalisation service unless specifically mentioned otherwise.
                 </p>
                 <p className="mt-4">
@@ -656,36 +705,48 @@ export default function ProductDetailClient({
               <ProductInfoDropdown title="Materials & Care">
                 <p>We carefully select quality materials to complement our handcrafted personalisation.</p>
 
-                <p className="mt-5 font-medium text-black">Linen</p>
-                <p>Used for our tote bags, dining napkins, and signages.</p>
-                <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-black/45">
-                  <li>For small dirt marks, gently wipe with a damp cloth and mild soap.</li>
-                  <li>Hand wash only: If the entire bag or napkin requires cleaning, hand wash in cold water with a gentle detergent.</li>
-                  <li>Do not soak, wring, or twist the painted area, as excessive friction may cause the cured acrylic paint to crack or wear.</li>
-                  <li>Dry flat: Reshape while damp and allow to air dry flat.</li>
-                  <li>Avoid ironing directly over painted areas.</li>
-                </ul>
+                {(!material || material === "linen") && (
+                  <>
+                    <p className="mt-5 font-medium text-black">Linen</p>
+                    <p>Used for our tote bags, dining napkins, and signages.</p>
+                    <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-black/45">
+                      <li>For small dirt marks, gently wipe with a damp cloth and mild soap.</li>
+                      <li>Hand wash only: If the entire bag or napkin requires cleaning, hand wash in cold water with a gentle detergent.</li>
+                      <li>Do not soak, wring, or twist the painted area, as excessive friction may cause the cured acrylic paint to crack or wear.</li>
+                      <li>Dry flat: Reshape while damp and allow to air dry flat.</li>
+                      <li>Avoid ironing directly over painted areas.</li>
+                    </ul>
+                  </>
+                )}
 
-                <p className="mt-5 font-medium text-black">Metal</p>
-                <p>
-                  Our compact mirrors and card holders are crafted using quality metal surfaces, selected to provide a smooth base for precise, lasting engraving.
-                </p>
-                <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-black/45">
-                  <li>Wipe gently with a soft, dry or slightly damp cloth.</li>
-                  <li>Avoid abrasive cleaners, rough cloths, and prolonged exposure to moisture.</li>
-                  <li>For engraved surfaces, handle gently to preserve the finish.</li>
-                </ul>
+                {(!material || material === "metal") && (
+                  <>
+                    <p className="mt-5 font-medium text-black">Metal</p>
+                    <p>
+                      Our compact mirrors and card holders are crafted using quality metal surfaces, selected to provide a smooth base for precise, lasting engraving.
+                    </p>
+                    <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-black/45">
+                      <li>Wipe gently with a soft, dry or slightly damp cloth.</li>
+                      <li>Avoid abrasive cleaners, rough cloths, and prolonged exposure to moisture.</li>
+                      <li>For engraved surfaces, handle gently to preserve the finish.</li>
+                    </ul>
+                  </>
+                )}
 
-                <p className="mt-5 font-medium text-black">Glass</p>
-                <p>
-                  Our wine glasses, tumblers, ring boxes, letter holders, and frames use quality glass selected for their clarity and elegant finish. Our ring boxes, letter holders, and frames feature gold-toned metal rims for an elevated look.
-                </p>
-                <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-black/45">
-                  <li>Handle glass pieces with care.</li>
-                  <li>Clean gently with a soft cloth and mild soap.</li>
-                  <li>Avoid abrasive materials and harsh cleaning products.</li>
-                  <li>For personalised or engraved surfaces, avoid excessive scrubbing directly over the artwork or engraving.</li>
-                </ul>
+                {(!material || material === "glass") && (
+                  <>
+                    <p className="mt-5 font-medium text-black">Glass</p>
+                    <p>
+                      Our wine glasses, tumblers, ring boxes, letter holders, and frames use quality glass selected for their clarity and elegant finish. Our ring boxes, letter holders, and frames feature gold-toned metal rims for an elevated look.
+                    </p>
+                    <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-black/45">
+                      <li>Handle glass pieces with care.</li>
+                      <li>Clean gently with a soft cloth and mild soap.</li>
+                      <li>Avoid abrasive materials and harsh cleaning products.</li>
+                      <li>For personalised or engraved surfaces, avoid excessive scrubbing directly over the artwork or engraving.</li>
+                    </ul>
+                  </>
+                )}
 
                 <p className="mt-5 font-medium text-black">Handcrafted Details</p>
                 <p>

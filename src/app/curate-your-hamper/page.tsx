@@ -55,7 +55,7 @@ export default function CurateYourHamperPage() {
             Gifting
           </p>
           <h1 className="mt-4 font-(family-name:--font-body) text-[2.5rem] leading-[1.05] text-black md:text-[3.6rem] lg:text-[4rem]">
-            Curate Your <span className="font-(family-name:--font-heading)">Hamper</span>
+            Curate Your Hamper
           </h1>
           <p className="mx-auto mt-6 max-w-xl font-(family-name:--font-body) text-[1.05rem] leading-8 text-black/72 md:text-[1.15rem]">
             Build something personal from our collection.

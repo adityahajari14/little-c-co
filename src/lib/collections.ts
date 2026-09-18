@@ -10,6 +10,9 @@ export type CollectionItem = {
   // listed in the header Shop dropdown. Used for edits that are surfaced
   // elsewhere (e.g. as suggestions inside "Curate your hamper").
   hideFromNav?: boolean;
+  // When true, the collection page shows a "more coming soon" placeholder
+  // alongside its published products, for collections still being filled out.
+  showComingSoon?: boolean;
 };
 
 // Shop collections mirror the `services.ts` pattern: each collection is a curated
@@ -44,8 +47,8 @@ export const collections: CollectionItem[] = [
     eyebrow: "Curated edit",
     description:
       "Handpainted and engraved pieces for the table — napkins, cutlery, place cards, and details that set the scene.",
-    image: "/collections/the-table-edit.webp",
     sourceCategories: ["The Table Edit"],
+    showComingSoon: true,
   },
   {
     slug: "for-your-bridesmaids",
